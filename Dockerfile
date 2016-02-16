@@ -50,5 +50,7 @@ ENV LC_ALL C.UTF-8
 ENV TZ Asia/Ho_Chi_Minh
 
 EXPOSE 80
-VOLUME /var/www/html
+RUN rm -rf /var/www/html && chown -R www-data:www-data /var/www
+WORKDIR /var/www/
+VOLUME /var/www/
 CMD ["apache2-foreground"]
