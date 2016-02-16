@@ -40,17 +40,12 @@ RUN { \
 		echo 'opcache.enable_cli=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-# PECL extensions
-RUN pecl install APCu-4.0.10 redis memcached \
-	&& docker-php-ext-enable apcu redis memcached
-
 RUN a2enmod rewrite
 
 ENV LC_ALL C.UTF-8
 ENV TZ Asia/Ho_Chi_Minh
 
 EXPOSE 80
-RUN rm -rf /var/www/html && chown -R www-data:www-data /var/www
-WORKDIR /var/www/
-VOLUME /var/www/
+WORKDIR /var/www/html
+VOLUME /var/www/html
 CMD ["apache2-foreground"]
