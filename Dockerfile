@@ -23,7 +23,7 @@ RUN apt-get update && apt-get install -y unzip tar wget curl \
 	&& rm -rf /var/lib/apt/lists/*
 	
 RUN dpkg-reconfigure locales && \
-    locale-gen en_US.UTF-8 && \
+    locale-gen C.UTF-8 && \
     /usr/sbin/update-locale LANG=C.UTF-8
 
 RUN docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
