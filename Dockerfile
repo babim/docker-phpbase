@@ -1,4 +1,4 @@
-FROM php:5.6-fpm
+FROM php:5.6-apache
 MAINTAINER "Duc Anh Babim" <ducanh.babim@yahoo.com>
 
 RUN rm -f /etc/motd && \
@@ -8,8 +8,8 @@ RUN rm -f /etc/motd && \
     echo "Babim Container Framework \l" > /etc/issue && \
     echo "Babim Container Framework" > /etc/issue.net && \
     touch "/(C) Babim"
-
-RUN apt-get update && apt-get install -y wget unzip curl tar \
+    
+RUN apt-get update && apt-get install -y unzip tar wget curl \
 	bzip2 locales \
 	libcurl4-openssl-dev \
 	libfreetype6-dev \
@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y wget unzip curl tar \
 	libpq-dev \
 	libxml2-dev \
 	&& rm -rf /var/lib/apt/lists/*
-
+	
 RUN dpkg-reconfigure locales && \
     locale-gen en_US.UTF-8 && \
     /usr/sbin/update-locale LANG=C.UTF-8
@@ -44,13 +44,11 @@ RUN { \
 RUN pecl install APCu-4.0.10 redis memcached \
 	&& docker-php-ext-enable apcu redis memcached
 
-COPY docker-entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+RUN a2enmod rewrite
 
 ENV LC_ALL C.UTF-8
 ENV TZ Asia/Ho_Chi_Minh
 
-EXPOSE 9000
+EXPOSE 80
 VOLUME /var/www/html
-
-CMD ["php-fpm"]
+CMD ["apache2-foreground"]
