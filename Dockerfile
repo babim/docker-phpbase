@@ -40,10 +40,6 @@ RUN { \
 
 RUN mkdir -p /etc-start/php/conf.d/ && cp -R /usr/local/etc/php/conf.d/ /etc-start/php/conf.d/
 
-# PECL extensions
-RUN pecl install APCu-4.0.10 redis memcached \
-	&& docker-php-ext-enable apcu redis memcached
-
 ENV LC_ALL C.UTF-8
 ENV TZ Asia/Ho_Chi_Minh
 
@@ -53,5 +49,5 @@ ENTRYPOINT ["/entrypoint.sh"]
 
 EXPOSE 9000
 WORKDIR /var/www
-VOLUME /var/www /usr/local/etc/php/conf.d
+VOLUME ["/var/www", "/usr/local/etc/php/conf.d"]
 CMD ["php-fpm"]
