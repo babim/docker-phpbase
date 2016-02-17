@@ -29,6 +29,10 @@ RUN dpkg-reconfigure locales && \
 RUN docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
 	&& docker-php-ext-install gd intl mbstring mcrypt mysql opcache pdo_mysql pdo_pgsql pgsql zip
 
+# PECL extensions
+RUN pecl install APCu-4.0.10 redis memcached \
+	&& docker-php-ext-enable apcu redis memcached
+
 # set recommended PHP.ini settings
 # see https://secure.php.net/manual/en/opcache.installation.php
 RUN { \
@@ -39,17 +43,28 @@ RUN { \
 		echo 'opcache.fast_shutdown=1'; \
 		echo 'opcache.enable_cli=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
+# set upload tweak
+RUN { \
+		echo 'display_errors = On'; \
+		echo 'cgi.fix_pathinfo=0'; \
+		echo 'upload_max_filesize = 520M'; \
+		echo 'post_max_size = 520M'; \
+		echo 'max_input_time = 3600'; \
+		echo 'max_execution_time = 3600'; \
+	} > /usr/local/etc/php/conf.d/upload.ini
 
-# PECL extensions
-RUN pecl install APCu-4.0.10 redis memcached \
-	&& docker-php-ext-enable apcu redis memcached
+RUN mkdir -p /etc-start/php/conf.d/ && cp -R /usr/local/etc/php/conf.d/ /etc-start/php/conf.d/
 
 RUN a2enmod rewrite
 
 ENV LC_ALL C.UTF-8
 ENV TZ Asia/Ho_Chi_Minh
 
+COPY docker-entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+
 EXPOSE 80
-WORKDIR /var/www/html
-VOLUME /var/www/html
+WORKDIR /var/www
+VOLUME ["/var/www", "/usr/local/etc/php/conf.d"]
 CMD ["apache2-foreground"]
