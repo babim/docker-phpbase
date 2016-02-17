@@ -9,8 +9,8 @@ RUN rm -f /etc/motd && \
     echo "Babim Container Framework" > /etc/issue.net && \
     touch "/(C) Babim"
 
-RUN apt-get update && apt-get install -y \
-	bzip2 \
+RUN apt-get update && apt-get install -y unzip tar wget curl \
+	bzip2 locales \
 	libcurl4-openssl-dev \
 	libfreetype6-dev \
 	libicu-dev \
