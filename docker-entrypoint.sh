@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
 
-if [ -z "`ls /etc/php/conf.d`" ] 
+if [ -z "`ls /usr/local/etc/php/conf.d`" ] 
 then
-	cp -R /etc-start/php/conf.d/ /etc/php/conf.d
+	cp -R /etc-start/php/conf.d/ /usr/local/etc/php/conf.d
 fi
 
 exec "$@"
