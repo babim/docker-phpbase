@@ -29,6 +29,10 @@ RUN dpkg-reconfigure locales && \
 RUN docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
 	&& docker-php-ext-install gd intl mbstring mcrypt mysql opcache pdo_mysql pdo_pgsql pgsql zip
 
+# PECL extensions
+RUN pecl install APCu-4.0.10 redis memcached \
+	&& docker-php-ext-enable apcu redis memcached
+
 # set recommended PHP.ini settings
 # see https://secure.php.net/manual/en/opcache.installation.php
 RUN { \
@@ -39,19 +43,17 @@ RUN { \
 		echo 'opcache.fast_shutdown=1'; \
 		echo 'opcache.enable_cli=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
+# set upload tweak
+RUN { \
+		echo 'display_errors = On'; \
+		echo 'cgi.fix_pathinfo=0'; \
+		echo 'upload_max_filesize = 520M'; \
+		echo 'post_max_size = 520M'; \
+		echo 'max_input_time = 3600'; \
+		echo 'max_execution_time = 3600'; \
+	} > /usr/local/etc/php/conf.d/upload.ini
 
-RUN sed -ri 's/^display_errors\s*=\s*Off/display_errors = On/g' /etc/php/conf.d/upload.ini && \
-    sed -i 's/\;date\.timezone\ \=/date\.timezone\ \=\ Asia\/Ho_Chi_Minh/g' /etc/php/conf.d/upload.ini && \
-    sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/conf.d/upload.ini && \
-    sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 520M/" /etc/php/conf.d/upload.ini && \
-    sed -i "s/post_max_size = 8M/post_max_size = 520M/" /etc/php/conf.d/upload.ini && \
-    sed -i "s/max_input_time = 60/max_input_time = 3600/" /etc/php/conf.d/upload.ini && \
-    sed -i "s/max_execution_time = 30/max_execution_time = 3600/" /etc/php/conf.d/upload.ini && \
-    mkdir -p /etc-start/php/conf.d/ && cp -R /etc/php/conf.d/ /etc-start/php/conf.d/
-
-# PECL extensions
-RUN pecl install APCu-4.0.10 redis memcached \
-	&& docker-php-ext-enable apcu redis memcached
+RUN mkdir -p /etc-start/php/conf.d/ && cp -R /usr/local/etc/php/conf.d/ /etc-start/php/conf.d/
 
 ENV LC_ALL C.UTF-8
 ENV TZ Asia/Ho_Chi_Minh
@@ -62,5 +64,5 @@ ENTRYPOINT ["/entrypoint.sh"]
 
 EXPOSE 9000
 WORKDIR /var/www
-VOLUME /var/www
+VOLUME ["/var/www", "/usr/local/etc/php/conf.d"]
 CMD ["php-fpm"]
