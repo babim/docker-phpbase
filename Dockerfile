@@ -5,8 +5,6 @@ RUN rm -f /etc/motd && \
     echo "---" > /etc/motd && \
     echo "Support by Duc Anh Babim. Contact: ducanh.babim@yahoo.com" >> /etc/motd && \
     echo "---" >> /etc/motd && \
-    echo "Babim Container Framework \l" > /etc/issue && \
-    echo "Babim Container Framework" > /etc/issue.net && \
     touch "/(C) Babim"
 
 RUN apt-get update && apt-get install -y unzip tar wget curl \
