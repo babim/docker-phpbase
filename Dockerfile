@@ -40,12 +40,25 @@ RUN { \
 		echo 'opcache.enable_cli=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
+RUN sed -ri 's/^display_errors\s*=\s*Off/display_errors = On/g' /etc/php/conf.d/upload.ini && \
+    sed -i 's/\;date\.timezone\ \=/date\.timezone\ \=\ Asia\/Ho_Chi_Minh/g' /etc/php/conf.d/upload.ini && \
+    sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/conf.d/upload.ini && \
+    sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 520M/" /etc/php/conf.d/upload.ini && \
+    sed -i "s/post_max_size = 8M/post_max_size = 520M/" /etc/php/conf.d/upload.ini && \
+    sed -i "s/max_input_time = 60/max_input_time = 3600/" /etc/php/conf.d/upload.ini && \
+    sed -i "s/max_execution_time = 30/max_execution_time = 3600/" /etc/php/conf.d/upload.ini && \
+    mkdir -p /etc-start/php/conf.d/ && cp -R /etc/php/conf.d/ /etc-start/php/conf.d/
+
 # PECL extensions
 RUN pecl install APCu-4.0.10 redis memcached \
 	&& docker-php-ext-enable apcu redis memcached
 
 ENV LC_ALL C.UTF-8
 ENV TZ Asia/Ho_Chi_Minh
+
+COPY docker-entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
 
 EXPOSE 9000
 WORKDIR /var/www
