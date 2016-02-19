@@ -28,9 +28,9 @@ RUN docker-php-ext-configure gd --enable-gd-native-ttf \
 
 RUN docker-php-ext-install bcmath bz2 calendar enchant ctype dba dom exif fileinfo \
 	ldap ftp gd gettext hash iconv mbstring mcrypt mysqli pgsql posix pdo pdo_mysql \
-	pdo_pgsql pdo_sqlite intl json pspell shmop soap sockets wddx interbase \
+	pdo_pgsql intl json pspell shmop soap sockets wddx interbase \
 	xmlwriter opcache phar session simplexml tokenizer xml xmlrpc xsl zip tidy
-#disable on php7: imap xmlreader sqlite3 curl
+#disable on php7: imap xmlreader sqlite3 curl pdo_sqlite
 
 RUN pecl install -f apcu mongo redis memcached && \
 	docker-php-ext-enable apcu
