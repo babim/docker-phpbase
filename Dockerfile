@@ -1,4 +1,6 @@
 FROM php:5.6-fpm
+MAINTAINER "Duc Anh Babim" <ducanh.babim@yahoo.com>
+
 RUN rm -f /etc/motd && \
     echo "---" > /etc/motd && \
     echo "Support by Duc Anh Babim. Contact: ducanh.babim@yahoo.com" >> /etc/motd && \
@@ -62,13 +64,7 @@ RUN { \
 RUN dpkg-reconfigure locales && \
     locale-gen C.UTF-8 && \
     /usr/sbin/update-locale LANG=C.UTF-8
-    
-RUN a2enmod rewrite && \
-    a2enmod expires && \
-    a2enmod mime && \
-    a2enmod filter && \
-    a2enmod deflate
-    
+
 RUN mkdir -p /etc-start/php/conf.d/ && cp -R /usr/local/etc/php/conf.d/* /etc-start/php/conf.d/
 
 RUN apt-get clean && \
