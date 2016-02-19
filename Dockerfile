@@ -7,7 +7,8 @@ RUN rm -f /etc/motd && \
     echo "---" >> /etc/motd && \
     touch "/(C) Babim"
 
-RUN apt-get update && apt-get install -y unzip apt-utils git openssl curl wget \
+RUN apt-get update && apt-get install -y locales \
+	unzip apt-utils git openssl curl wget \
 	libbz2-dev libxslt-dev libpq-dev libmemcached-dev libicu-dev libmcrypt-dev \
 	g++ libfreetype6-dev libfreetype6 libjpeg62-turbo libjpeg62-turbo-dev \
 	libpng12-dev libpng12-0 libssl-dev libxml2-dev libzzip-dev \
