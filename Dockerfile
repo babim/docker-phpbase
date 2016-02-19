@@ -28,7 +28,8 @@ RUN docker-php-ext-install bcmath bz2 calendar enchant ctype dba dom exif filein
 	ldap ftp gd gettext hash iconv mbstring mcrypt mysqli pgsql posix pdo pdo_mysql \
 	pdo_pgsql pdo_sqlite intl json pspell shmop soap sockets wddx interbase \
 	xmlwriter opcache phar session simplexml tokenizer xml xmlrpc xsl zip tidy \
-	imap xmlreader sqlite3
+	imap xmlreader
+#disable failed sqlite3 curl
 
 RUN pecl install -f APCu-4.0.10 mongo redis memcached && \
 	docker-php-ext-enable apcu redis memcached
