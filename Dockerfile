@@ -33,9 +33,9 @@ RUN docker-php-ext-install bcmath bz2 calendar enchant ctype dba dom exif filein
 	xmlwriter opcache phar session simplexml tokenizer xml xmlrpc xsl zip tidy
 #disable on php7: imap xmlreader sqlite3 curl pdo_sqlite
 
-RUN pecl install -f apcu mongo redis && \
-	docker-php-ext-enable apcu
-#disable on php7: redis memcached
+RUN pecl install -f mongo
+#	docker-php-ext-enable apcu
+#disable on php7: redis memcached apcu redis
 
 # Install Composer for Laravel
 RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
