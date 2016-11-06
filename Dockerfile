@@ -66,7 +66,7 @@ RUN dpkg-reconfigure locales && \
     locale-gen C.UTF-8 && \
     /usr/sbin/update-locale LANG=C.UTF-8
 
-RUN mkdir -p /etc-start/php/ && mv /usr/local/etc/php/conf.d /etc-start/php/ && mkdir /usr/local/etc/php/conf.d
+RUN mkdir -p /etc-start/php/conf.d/ && cp -R /usr/local/etc/php/conf.d/ /etc-start/php/conf.d/
 
 RUN a2enmod rewrite && \
     a2enmod expires && \
