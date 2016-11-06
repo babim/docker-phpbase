@@ -32,8 +32,8 @@ RUN docker-php-ext-install bcmath bz2 calendar enchant ctype dba dom exif filein
 	ldap ftp gd gettext hash iconv mbstring mcrypt mysqli pgsql posix pdo pdo_mysql \
 	pdo_pgsql intl json pspell shmop soap sockets wddx interbase \
 	xmlwriter opcache phar session simplexml tokenizer xml xmlrpc xsl zip tidy \
-	imap xmlreader sqlite3 curl pdo_sqlite
-#disable on php7: 
+	imap curl pdo_sqlite
+#disable on php7: xmlreader sqlite3
 
 #install xdebugy
 RUN pecl install xdebug && docker-php-ext-enable xdebug
