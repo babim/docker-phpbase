@@ -35,19 +35,21 @@ RUN docker-php-ext-install bcmath bz2 calendar enchant ctype dba dom exif filein
 	imap xmlreader
 #disable failed sqlite3 curl
 
-RUN cd /tmp/ && \
-    curl -O https://pecl.php.net/get/apcu-4.0.10.tgz && \
-    tar zxvf apcu-4.0.10.tgz && \
-    mv apcu-4.0.10 /usr/src/php/ext/apcu \
-&& docker-php-ext-install -j$(nproc) apcu
+#RUN cd /tmp/ && \
+#    curl -O https://pecl.php.net/get/apcu-4.0.10.tgz && \
+#    tar zxvf apcu-4.0.10.tgz && \
+#    mkdir -p /usr/src/php/ext/apcu && mv apcu-4.0.10 /usr/src/php/ext/apcu \
+#    && docker-php-ext-install -j$(nproc) apcuphpize
 
 # install php-redis
-ENV PHPREDIS_VERSION 2.2.7
-RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz \
-    && tar xfz /tmp/redis.tar.gz \
-    && rm -r /tmp/redis.tar.gz \
-    && mv phpredis-$PHPREDIS_VERSION /usr/src/php/ext/redis \
-&& docker-php-ext-install redis memcached
+#ENV PHPREDIS_VERSION 2.2.7
+#RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz \
+#    && tar xfz /tmp/redis.tar.gz \
+#    && rm -r /tmp/redis.tar.gz \
+#    && mv phpredis-$PHPREDIS_VERSION /usr/src/php/ext/redis \
+#    && docker-php-ext-install redis
+
+#RUN docker-php-ext-install memcached
 
 
 # Install Composer for Laravel
