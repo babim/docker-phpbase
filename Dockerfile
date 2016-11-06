@@ -34,8 +34,18 @@ RUN docker-php-ext-install bcmath bz2 calendar enchant ctype dba dom exif filein
 	imap xmlreader
 #disable failed sqlite3 curl
 
-RUN pecl install -f APCu-4.0.10 mongo redis memcached && \
-	docker-php-ext-enable apcu redis memcached
+RUN cd /tmp/ && \
+    curl -O https://pecl.php.net/get/apcu-4.0.10.tgz && \
+    tar zxvf apcu-4.0.10.tgz && \
+    mv apcu-4.0.10 /usr/src/php/ext/apcu \
+&& docker-php-ext-install -j$(nproc) apcu
+
+RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz \
+    && tar xfz /tmp/redis.tar.gz \
+    && rm -r /tmp/redis.tar.gz \
+    && mv phpredis-$PHPREDIS_VERSION /usr/src/php/ext/redis \
+&& docker-php-ext-install redis memcached
+
 
 # Install Composer for Laravel
 RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
