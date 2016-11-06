@@ -39,8 +39,30 @@ RUN docker-php-ext-install bcmath bz2 calendar enchant ctype dba dom exif filein
 RUN pecl install xdebug && docker-php-ext-enable xdebug
 
 RUN pecl install -f mongo
-#	docker-php-ext-enable apcu
-#disable on php7: redis memcached apcu redis
+RUN pecl install apcu \
+    && docker-php-ext-enable apcu
+
+ENV PHPREDIS_VERSION php7
+
+RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz  \
+    && mkdir /tmp/redis \
+    && tar -xf /tmp/redis.tar.gz -C /tmp/redis \
+    && rm /tmp/redis.tar.gz \
+    && ( \
+    cd /tmp/redis/phpredis-$PHPREDIS_VERSION \
+    && phpize \
+        && ./configure \
+    && make -j$(nproc) \
+        && make install \
+    ) \
+    && rm -r /tmp/redis \
+&& docker-php-ext-enable redis
+
+#install Imagemagick & PHP Imagick ext
+RUN apt-get install -y \
+        libmagickwand-dev --no-install-recommends
+
+RUN pecl install imagick && docker-php-ext-enable imagick
 
 # Install Composer for Laravel
 RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
