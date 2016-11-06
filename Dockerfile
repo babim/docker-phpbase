@@ -17,8 +17,9 @@ RUN apt-get update && apt-get install -y locales \
 	libtidy-dev libgmp-dev libxslt1-dev libsnmp-dev freetds-dev unixodbc-dev \
 	libpcre3-dev libsasl2-dev libmhash-dev libxpm-dev libgd2-xpm-dev \
 	re2c file libpng3 libpng++-dev libvpx-dev libgd-dev libmagic-dev libexif-dev \
-	libssh2-1-dev libc-client-dev libkrb5-dev imagemagick
-#disable on php7: libcurl4-gnutls-dev libcurl4-openssl-dev libcurl3-dev libsqlite3-dev
+	libssh2-1-dev libc-client-dev libkrb5-dev imagemagick \
+	libcurl4-gnutls-dev libcurl4-openssl-dev libcurl4-dev libsqlite3-dev
+#disable on php7: 
 
 RUN docker-php-ext-configure gd --enable-gd-native-ttf \
 	--with-png-dir=/usr --with-jpeg-dir=/usr \
@@ -30,8 +31,12 @@ RUN docker-php-ext-configure gd --enable-gd-native-ttf \
 RUN docker-php-ext-install bcmath bz2 calendar enchant ctype dba dom exif fileinfo \
 	ldap ftp gd gettext hash iconv mbstring mcrypt mysqli pgsql posix pdo pdo_mysql \
 	pdo_pgsql intl json pspell shmop soap sockets wddx interbase \
-	xmlwriter opcache phar session simplexml tokenizer xml xmlrpc xsl zip tidy
-#disable on php7: imap xmlreader sqlite3 curl pdo_sqlite
+	xmlwriter opcache phar session simplexml tokenizer xml xmlrpc xsl zip tidy \
+	imap xmlreader sqlite3 curl pdo_sqlite
+#disable on php7: 
+
+#install xdebugy
+RUN pecl install xdebug && docker-php-ext-enable xdebug
 
 RUN pecl install -f mongo
 #	docker-php-ext-enable apcu
@@ -80,8 +85,7 @@ RUN apt-get clean && \
     rm -rf /build && \
     rm -rf /tmp/* /var/tmp/* && \
     rm -rf /var/lib/apt/lists/* && \
-    rm -f /etc/dpkg/dpkg.cfg.d/02apt-speedup && \
-    cd /usr/src/php && make clean
+    rm -f /etc/dpkg/dpkg.cfg.d/02apt-speedup
     
 ENV LC_ALL C.UTF-8
 ENV TZ Asia/Ho_Chi_Minh
