@@ -65,7 +65,7 @@ RUN { \
 		echo 'max_execution_time = 3600'; \
 	} > /usr/local/etc/php/conf.d/babim.ini
 
-RUN mkdir -p /etc-start/php/ && mv /usr/local/etc/php/conf.d /etc-start/php/ && mkdir /usr/local/etc/php/conf.d
+RUN mkdir -p /etc-start/php/conf.d/ && cp -R /usr/local/etc/php/conf.d/ /etc-start/php/conf.d/
 
 RUN apt-get clean && \
     apt-get autoclean && \
