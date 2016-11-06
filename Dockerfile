@@ -35,6 +35,9 @@ RUN docker-php-ext-install bcmath bz2 calendar enchant ctype dba dom exif filein
 	imap xmlreader sqlite3 curl pdo_sqlite
 #disable on php7: 
 
+#install xdebugy
+RUN pecl install xdebug && docker-php-ext-enable xdebug
+
 RUN pecl install -f mongo
 RUN pecl install apcu \
     && docker-php-ext-enable apcu
