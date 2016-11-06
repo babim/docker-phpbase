@@ -17,8 +17,9 @@ RUN apt-get update && apt-get install -y locales \
 	libtidy-dev libgmp-dev libxslt1-dev libsnmp-dev freetds-dev unixodbc-dev \
 	libpcre3-dev libsasl2-dev libmhash-dev libxpm-dev libgd2-xpm-dev \
 	re2c file libpng3 libpng++-dev libvpx-dev libgd-dev libmagic-dev libexif-dev \
-	libssh2-1-dev libc-client-dev libsqlite3-dev libkrb5-dev imagemagick
-#disable failed libcurl4-gnutls-dev libcurl4-openssl-dev libcurl3-dev
+	libssh2-1-dev libc-client-dev libsqlite3-dev libkrb5-dev imagemagick \
+	libcurl4-gnutls-dev libcurl4-openssl-dev libcurl4-dev
+#disable failed:
 
 RUN docker-php-ext-configure gd --enable-gd-native-ttf \
 	--with-png-dir=/usr --with-jpeg-dir=/usr \
@@ -40,6 +41,8 @@ RUN cd /tmp/ && \
     mv apcu-4.0.10 /usr/src/php/ext/apcu \
 && docker-php-ext-install -j$(nproc) apcu
 
+# install php-redis
+ENV PHPREDIS_VERSION 2.2.7
 RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz \
     && tar xfz /tmp/redis.tar.gz \
     && rm -r /tmp/redis.tar.gz \
