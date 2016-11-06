@@ -18,8 +18,8 @@ RUN apt-get update && apt-get install -y locales \
 	libpcre3-dev libsasl2-dev libmhash-dev libxpm-dev libgd2-xpm-dev \
 	re2c file libpng3 libpng++-dev libvpx-dev libgd-dev libmagic-dev libexif-dev \
 	libssh2-1-dev libc-client-dev libkrb5-dev imagemagick \
-	libcurl4-gnutls-dev libcurl4-openssl-dev  libsqlite3-dev
-#disable on php7: libcurl4-dev
+	libcurl4-openssl-dev  libsqlite3-dev
+#disable on php7: libcurl4-dev libcurl4-gnutls-dev
 
 RUN docker-php-ext-configure gd --enable-gd-native-ttf \
 	--with-png-dir=/usr --with-jpeg-dir=/usr \
