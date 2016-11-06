@@ -85,8 +85,8 @@ RUN apt-get clean && \
     rm -rf /build && \
     rm -rf /tmp/* /var/tmp/* && \
     rm -rf /var/lib/apt/lists/* && \
-    rm -f /etc/dpkg/dpkg.cfg.d/02apt-speedup && \
-    cd /usr/src/php && make clean
+    rm -f /etc/dpkg/dpkg.cfg.d/02apt-speedup
+#    cd /usr/src/php && make clean
     
 ENV LC_ALL C.UTF-8
 ENV TZ Asia/Ho_Chi_Minh
