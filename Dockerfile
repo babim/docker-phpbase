@@ -40,6 +40,8 @@ RUN cd /tmp/ && \
     mv apcu-4.0.10 /usr/src/php/ext/apcu \
 && docker-php-ext-install -j$(nproc) apcu
 
+# install php-redis
+ENV PHPREDIS_VERSION 2.2.7
 RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz \
     && tar xfz /tmp/redis.tar.gz \
     && rm -r /tmp/redis.tar.gz \
