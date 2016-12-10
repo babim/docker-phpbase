@@ -35,13 +35,13 @@ elif [[ "$auid" = "0" ]] || [[ "$aguid" == "0" ]]; then
 	auser=root
 	export APACHE_RUN_USER=$auser
 	export APACHE_RUN_GROUP=$auser
-	sed -i -e "/^user = .*/cuser = $auser" /usr/local/etc/php-fpm.conf
-	sed -i -e "/^group = .*/cgroup = $auser" /usr/local/etc/php-fpm.conf
+	#sed -i -e "/^user = .*/cuser = $auser" /usr/local/etc/php-fpm.conf
+	#sed -i -e "/^group = .*/cgroup = $auser" /usr/local/etc/php-fpm.conf
 else
 if id $auser >/dev/null 2>&1; then
         echo "user exists"
-	sed -i -e "/^user = .*/cuser = $auser" /usr/local/etc/php-fpm.conf
-	sed -i -e "/^group = .*/cgroup = $auser" /usr/local/etc/php-fpm.conf
+	#sed -i -e "/^user = .*/cuser = $auser" /usr/local/etc/php-fpm.conf
+	#sed -i -e "/^group = .*/cgroup = $auser" /usr/local/etc/php-fpm.conf
 	export APACHE_RUN_USER=$auser
 	export APACHE_RUN_GROUP=$auser
 	# usermod alpine
@@ -58,8 +58,8 @@ else
 	#addgroup -g $agid $auser && adduser -D -H -G $auser -s /bin/false -u $auid $auser
 	# create user ubuntu/debian
 	groupadd -g $agid $auser && useradd --system --uid $auid --shell /usr/sbin/nologin -g $auser $auser
-	sed -i -e "/^user = .*/cuser = $auser" /usr/local/etc/php-fpm.conf
-	sed -i -e "/^group = .*/cgroup = $auser" /usr/local/etc/php-fpm.conf
+	#sed -i -e "/^user = .*/cuser = $auser" /usr/local/etc/php-fpm.conf
+	#sed -i -e "/^group = .*/cgroup = $auser" /usr/local/etc/php-fpm.conf
 fi
 
 fi
