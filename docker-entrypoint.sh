@@ -4,7 +4,6 @@ set -e
 if [ -z "`ls /usr/local/etc/php/conf.d`" ] 
 then
 	cp -R /etc-start/php/conf.d/* /usr/local/etc/php/conf.d
-fi
    # Set environments
     TIMEZONE1=${TIMEZONE:-Asia/Ho_Chi_Minh}
     PHP_MEMORY_LIMIT1=${PHP_MEMORY_LIMIT:-512M}
@@ -23,6 +22,7 @@ fi
     	-e "s/max_input_time = 60/max_input_time = ${MAX_INPUT_TIME1}/" \
 	-e "s/max_execution_time = 30/max_execution_time = ${MAX_EXECUTION_TIME1}/" \
 	/usr/local/etc/php/conf.d/babim.ini
+fi
 
 # set ID docker run
 agid=${agid:-$auid}
