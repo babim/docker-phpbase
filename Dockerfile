@@ -40,7 +40,7 @@ RUN docker-php-ext-install bcmath bz2 calendar enchant ctype dba dom exif filein
 #install xdebugy
 RUN pecl install xdebug && docker-php-ext-enable xdebug
 
-RUN pecl install -f mongo
+#RUN pecl install -f mongo
 RUN pecl install apcu \
     && docker-php-ext-enable apcu
 
