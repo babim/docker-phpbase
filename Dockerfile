@@ -1,5 +1,7 @@
 FROM php:7.0-apache
-MAINTAINER "Duc Anh Babim" <ducanh.babim@yahoo.com>
+# Maintainer
+# ----------
+MAINTAINER babim <babim@matmagoc.com>
 
 RUN rm -f /etc/motd && \
     echo "---" > /etc/motd && \
