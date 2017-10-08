@@ -46,19 +46,19 @@ RUN pecl install apcu \
 
 ENV PHPREDIS_VERSION php7
 
-RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz  \
-    && mkdir /tmp/redis \
-    && tar -xf /tmp/redis.tar.gz -C /tmp/redis \
-    && rm /tmp/redis.tar.gz \
-    && ( \
-    cd /tmp/redis/phpredis-$PHPREDIS_VERSION \
-    && phpize \
-        && ./configure \
-    && make -j$(nproc) \
-        && make install \
-    ) \
-    && rm -r /tmp/redis \
-&& docker-php-ext-enable redis
+#RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz  \
+#    && mkdir /tmp/redis \
+#    && tar -xf /tmp/redis.tar.gz -C /tmp/redis \
+#    && rm /tmp/redis.tar.gz \
+#    && ( \
+#    cd /tmp/redis/phpredis-$PHPREDIS_VERSION \
+#    && phpize \
+#        && ./configure \
+#    && make -j$(nproc) \
+#        && make install \
+#    ) \
+#    && rm -r /tmp/redis \
+#&& docker-php-ext-enable redis
 
 #install Imagemagick & PHP Imagick ext
 RUN apt-get install -y \
