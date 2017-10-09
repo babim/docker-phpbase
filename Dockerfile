@@ -37,6 +37,20 @@ RUN docker-php-ext-install bcmath bz2 calendar enchant ctype dba dom exif filein
 	imap curl pdo_sqlite
 #disable on php7: xmlreader sqlite3
 
+# install oracle client extension
+ENV ORACLE_VERSION 12.2.0.1.0
+RUN apt-get install -y --force-yes wget unzip libaio-dev php5.6-dev php-pear
+RUN wget http://media.matmagoc.com/oracle/instantclient-basic-linux.x64-$ORACLE_VERSION.zip && \
+    unzip instantclient-basic-linux.x64-$ORACLE_VERSION.zip -d /usr/local/ && \
+    ln -s /usr/local/instantclient_12_2 /usr/local/instantclient && \
+    ln -s /usr/local/instantclient/libclntsh.so.12.1 /usr/local/instantclient/libclntsh.so && \
+    ln -s /usr/local/instantclient/libclntshcore.so.12.1 /usr/local/instantclient/libclntsh.so && \
+    ln -s /usr/local/instantclient/libocci.so.12.1 /usr/local/instantclient/libclntsh.so && \
+    rm -f instantclient-basic-linux.x64-$ORACLE_VERSION.zip
+ENV ORACLE_HOME /usr/local/instantclient
+RUN docker-php-ext-configure oci8 --with-oci8=instantclient,/usr/local/instantclient \
+    && docker-php-ext-install oci8
+
 #install xdebugy
 RUN pecl install xdebug && docker-php-ext-enable xdebug
 
