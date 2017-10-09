@@ -39,7 +39,6 @@ RUN docker-php-ext-install bcmath bz2 calendar enchant ctype dba dom exif filein
 
 # install oracle client extension
 ENV ORACLE_VERSION 12.2.0.1.0
-RUN apt-get install -y --force-yes wget unzip libaio-dev php5.6-dev php-pear
 RUN wget http://media.matmagoc.com/oracle/instantclient-basic-linux.x64-$ORACLE_VERSION.zip && \
     unzip instantclient-basic-linux.x64-$ORACLE_VERSION.zip -d /usr/local/ && \
     ln -s /usr/local/instantclient_12_2 /usr/local/instantclient && \
