@@ -43,8 +43,8 @@ RUN wget http://media.matmagoc.com/oracle/instantclient-basic-linux.x64-$ORACLE_
     unzip instantclient-basic-linux.x64-$ORACLE_VERSION.zip -d /usr/local/ && \
     ln -s /usr/local/instantclient_12_2 /usr/local/instantclient && \
     ln -s /usr/local/instantclient/libclntsh.so.12.1 /usr/local/instantclient/libclntsh.so && \
-    ln -s /usr/local/instantclient/libclntshcore.so.12.1 /usr/local/instantclient/libclntsh.so && \
-    ln -s /usr/local/instantclient/libocci.so.12.1 /usr/local/instantclient/libclntsh.so && \
+    ln -s /usr/local/instantclient/libclntshcore.so.12.1 /usr/local/instantclient/libclntshcore.so && \
+    ln -s /usr/local/instantclient/libocci.so.12.1 /usr/local/instantclient/libocci.so && \
     rm -f instantclient-basic-linux.x64-$ORACLE_VERSION.zip
 ENV ORACLE_HOME /usr/local/instantclient
 RUN docker-php-ext-configure oci8 --with-oci8=instantclient,/usr/local/instantclient \
