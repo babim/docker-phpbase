@@ -21,6 +21,8 @@ then
     	-e "s|;*post_max_size =.*|post_max_size = ${PHP_MAX_POST1}|i" \
     	-e "s/max_input_time = 60/max_input_time = ${MAX_INPUT_TIME1}/" \
 	-e "s/max_execution_time = 30/max_execution_time = ${MAX_EXECUTION_TIME1}/" \
+	-e "s/error_reporting = .*/error_reporting = E_ALL/" \
+	-e "s/display_errors = .*/display_errors = On/" \
 	/usr/local/etc/php/conf.d/babim.ini
 fi
 
